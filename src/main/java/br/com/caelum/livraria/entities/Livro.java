@@ -1,11 +1,27 @@
 package br.com.caelum.livraria.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+@Entity
 public class Livro {
+
+	@Id
+	@GeneratedValue
+	private Integer id;
 
 	private String titulo;
 	private String isbn;
 	private double preco;
 	private String dataLancamento;
+
+	@ManyToMany
+	private List<Autor> autores = new ArrayList<>();
 
 	public String getTitulo() {
 		return titulo;
