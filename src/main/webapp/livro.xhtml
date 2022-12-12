@@ -3,10 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+    </h:head>
 	<h:body>
 		<h1>Novo Livro</h1>
 		<h:form>
-			<h:messages />
+			<h:messages id="messages"/>
 			<fieldset>
 				<legend>Dados do Livro</legend>
 				<h:panelGrid columns="2">
@@ -15,9 +17,12 @@
 						requiredMessage="Título obrigatório"
 						validatorMessage="Título não pode ser superior a 40">
 						<f:validateLength maximum="40"/>
+						<f:ajax event="blur" render="messages"/>
 					</h:inputText>
 					<h:outputLabel value="ISBN" for="isbn" />
-					<h:inputText id="isbn" value="#{livroBean.livro.isbn}" validator="#{livroBean.comecaComDigitoUm}"/>
+					<h:inputText id="isbn" value="#{livroBean.livro.isbn}" validator="#{livroBean.comecaComDigitoUm}">
+						<f:ajax event="keyup" render="messages"/>
+					</h:inputText>
 					<h:outputLabel value="Preço" for="preco" />
 					<h:inputText id="preco" value="#{livroBean.livro.preco}" label="Preço">
 						<f:validateDoubleRange minimum="1.0" maximum="1000.00"/>
@@ -26,7 +31,9 @@
 					<h:inputText id="dataLancamento" value="#{livroBean.livro.dataLancamento.time}">
 						<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
 					</h:inputText>
-					<h:commandButton value="Gravar" action="#{livroBean.gravar}"/>
+					<h:commandButton value="Gravar" action="#{livroBean.gravar}">
+						<f:ajax execute="@form" render="@form :tabelaLivros"/>
+					</h:commandButton>
 				</h:panelGrid>
 			</fieldset>
 			<fieldset>
@@ -36,12 +43,14 @@
 					<f:selectItems value="#{livroBean.autores}" var="autor"
 						itemLabel="#{autor.nome}" itemValue="#{autor.id}"/>
 				</h:selectOneMenu>
-				<h:dataTable value="#{livroBean.autoresDoLivro}" var="autor">
+				<h:dataTable value="#{livroBean.autoresDoLivro}" var="autor" id="tabelaAutores">
 					<h:column>
 						<h:outputText value="#{autor.nome}" />
 					</h:column>
 				</h:dataTable>
-				<h:commandButton value="Gravar Autor" action="#{livroBean.gravarAutor}"/>
+				<h:commandButton value="Gravar Autor" action="#{livroBean.gravarAutor}">
+					<f:ajax execute="autor" render="tabelaAutores" />
+				</h:commandButton>
 			</fieldset>
 		</h:form>
 		
