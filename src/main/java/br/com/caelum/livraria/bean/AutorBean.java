@@ -11,10 +11,27 @@ import br.com.caelum.livraria.util.RedirectView;
 @ViewScoped
 public class AutorBean {
 
-	private Autor autor = new Autor();
+	private Autor autor;
+
+	private Integer autorId;
 
 	public Autor getAutor() {
 		return autor;
+	}
+
+	public Integer getAutorId() {
+		return autorId;
+	}
+
+	public void setAutorId(Integer autorId) {
+		this.autorId = autorId;
+	}
+
+	public void carregarAutorPeloId() {
+		this.autor = new DAO<Autor>(Autor.class).buscaPorId(autorId);
+		if (autor == null) {
+			this.autor = new Autor();
+		}
 	}
 
 	public RedirectView gravar() {
