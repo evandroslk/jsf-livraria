@@ -23,6 +23,14 @@ public class Livro {
 	@ManyToMany
 	private List<Autor> autores = new ArrayList<>();
 
+	public List<Autor> getAutores() {
+		return autores;
+	}
+
+	public void adicionaAutor(Autor autor) {
+		this.autores.add(autor);
+	}
+
 	public String getTitulo() {
 		return titulo;
 	}
