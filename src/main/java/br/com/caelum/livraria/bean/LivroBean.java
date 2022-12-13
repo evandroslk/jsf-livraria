@@ -1,6 +1,7 @@
 package br.com.caelum.livraria.bean;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -23,6 +24,8 @@ public class LivroBean {
 
 	private Integer livroId;
 
+	private List<Livro> livros;
+
 	public void gravar() {
 		System.out.println("Gravando livro " + this.livro.getTitulo());
 
@@ -31,13 +34,42 @@ public class LivroBean {
 			return;
 		}
 
+		DAO<Livro> dao = new DAO<Livro>(Livro.class);
+
 		if (this.livro.getId() == null) {
-			new DAO<Livro>(Livro.class).adiciona(this.livro);
+			dao.adiciona(this.livro);
+			this.livros = dao.listaTodos();
 		} else {
-			new DAO<Livro>(Livro.class).atualiza(this.livro);
+			dao.atualiza(this.livro);
 		}
 
 		this.livro = new Livro();
+
+	}
+
+	public boolean precoEhMenor(Object valorColuna, Object filtroDigitado, Locale locale) {
+
+		String textoDigitado = (filtroDigitado == null) ? null : filtroDigitado.toString().trim();
+
+		System.out.println("Filtrando pelo " + textoDigitado + ", Valor do elemento: " + valorColuna);
+
+		if (textoDigitado == null || textoDigitado.equals("")) {
+			return true;
+		}
+
+		if (valorColuna == null) {
+			return false;
+		}
+
+		try {
+			Double precoDigitado = Double.valueOf(textoDigitado);
+			Double precoColuna = (Double) valorColuna;
+
+			// comparando os valores, compareTo devolve um valor negativo se o value é menor do que o filtro
+			return precoColuna.compareTo(precoDigitado) < 0;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 
 	}
 
@@ -85,7 +117,13 @@ public class LivroBean {
 	}
 
 	public List<Livro> getLivros() {
-		return new DAO<Livro>(Livro.class).listaTodos();
+		DAO<Livro> dao = new DAO<Livro>(Livro.class);
+
+		if (this.livros == null) {
+			this.livros = dao.listaTodos();
+		}
+
+		return livros;
 	}
 
 	public List<Autor> getAutores() {
