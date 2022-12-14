@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.caelum.livraria.dao.DAO;
+import br.com.caelum.livraria.dao.AutorDAO;
 import br.com.caelum.livraria.entities.Autor;
 import br.com.caelum.livraria.util.RedirectView;
 
@@ -16,9 +17,16 @@ public class AutorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject
+	private AutorDAO dao;
+
 	private Autor autor = new Autor();
 
 	private Integer autorId;
+
+	public AutorBean() {
+
+	}
 
 	public Autor getAutor() {
 		return autor;
@@ -37,15 +45,15 @@ public class AutorBean implements Serializable {
 	}
 
 	public List<Autor> getAutores() {
-		return new DAO<Autor>(Autor.class).listaTodos();
+		return dao.listaTodos();
 	}
 
 	public void remover(Autor autor) {
-		new DAO<Autor>(Autor.class).remove(autor);
+		dao.remove(autor);
 	}
 
 	public void carregarAutorPeloId() {
-		this.autor = new DAO<Autor>(Autor.class).buscaPorId(autorId);
+		this.autor = dao.buscaPorId(autorId);
 		if (autor == null) {
 			this.autor = new Autor();
 		}
@@ -53,7 +61,7 @@ public class AutorBean implements Serializable {
 
 	public RedirectView gravar() {
 		System.out.println("Gravando autor " + this.autor.getNome());
-		new DAO<Autor>(Autor.class).adiciona(this.autor);
+		dao.adiciona(this.autor);
 		autor = new Autor();
 		return new RedirectView("livro");
 	}
