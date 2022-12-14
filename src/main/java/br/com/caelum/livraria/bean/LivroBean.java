@@ -18,6 +18,7 @@ import br.com.caelum.livraria.dao.LivroDAO;
 import br.com.caelum.livraria.entities.Autor;
 import br.com.caelum.livraria.entities.Livro;
 import br.com.caelum.livraria.lazy.LivroDataModel;
+import br.com.caelum.livraria.tx.Transacional;
 
 @Named
 @ViewScoped
@@ -42,6 +43,7 @@ public class LivroBean implements Serializable {
 	@Inject
 	private LivroDataModel livroDataModel;
 
+	@Transacional
 	public void gravar() {
 		System.out.println("Gravando livro " + this.livro.getTitulo());
 
@@ -110,6 +112,7 @@ public class LivroBean implements Serializable {
 		}
 	}
 
+	@Transacional
 	public void remover(Livro livro) {
 		livroDAO.remove(livro);
 	}
