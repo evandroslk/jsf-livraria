@@ -82,9 +82,19 @@
 			<p:dataTable id="tabelaLivros" value="#{livroBean.livroDataModel}"
 				var="livro" paginator="true" rows="5" lazy="true" currentPageReportTemplate="{totalRecords} registros no total"
 				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
-				paginatorPosition="bottom" emptyMessage="Nenhum registro encontrado" >
+				paginatorPosition="bottom" emptyMessage="Nenhum registro encontrado" widgetVar="tabelaLivros">
 				
 				<f:facet name="header">Livros</f:facet>
+				
+				<p:column headerText="Gênero" sortBy="#{livro.genero}" filterBy="#{livro.genero}" filterMatchMode="startsWith">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('tabelaLivros').filter()">
+							<f:selectItem itemLabel="Selecione..." itemValue="#{null}" noSelectionOption="true"/>
+							<f:selectItems value="#{livroBean.generos}"/>
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{livro.genero}" />
+				</p:column>
 				
 				<p:column headerText="Título" sortBy="#{livro.titulo}"
 					filterBy="#{livro.titulo}" filterMatchMode="startsWith">

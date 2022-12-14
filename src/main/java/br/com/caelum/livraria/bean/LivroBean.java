@@ -1,5 +1,6 @@
 package br.com.caelum.livraria.bean;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -147,6 +148,10 @@ public class LivroBean {
 
 	public LivroDataModel getLivroDataModel() {
 		return livroDataModel;
+	}
+
+	public List<String> getGeneros() {
+		return Arrays.asList("Ação", "Drama", "Romance");
 	}
 
 }
