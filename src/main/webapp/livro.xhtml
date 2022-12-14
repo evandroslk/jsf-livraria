@@ -79,8 +79,10 @@
 		</h:form>
 
 		<h:form id="formTabelaLivros">
-			<p:dataTable id="tabelaLivros" value="#{livroBean.livros}"
-				var="livro" paginator="true" rows="5">
+			<p:dataTable id="tabelaLivros" value="#{livroBean.livroDataModel}"
+				var="livro" paginator="true" rows="5" lazy="true" currentPageReportTemplate="{totalRecords} registros no total"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+				paginatorPosition="bottom" emptyMessage="Nenhum registro encontrado" >
 				
 				<f:facet name="header">Livros</f:facet>
 				
@@ -95,7 +97,7 @@
 				</p:column>
 
 				<p:column headerText="Preço" sortBy="#{livro.preco}" filterBy="#{livro.preco}"
-					filterFunction="#{livroBean.precoEhMenor}">
+					filterFunction="#{livroBean.precoEhMenor}" >
 					<h:outputText value="#{livro.preco}">
 						<f:convertNumber type="currency" pattern="R$ #0.00"
 							currencySymbol="R$" locale="pt_BR" />
@@ -103,7 +105,7 @@
 				</p:column>
 
 				<p:column headerText="Data" sortBy="#{livro.dataLancamento.time}" filterBy="#{livro.dataLancamento.time}"
-					filterMatchMode="contains">
+					filterMatchMode="contains" field="dataLancamento">
 					<h:outputText value="#{livro.dataLancamento.time}">
 						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 					</h:outputText>
