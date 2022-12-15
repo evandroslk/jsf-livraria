@@ -1,19 +1,16 @@
 package br.com.caelum.livraria.bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 
-import br.com.caelum.livraria.dao.LivroDAO;
-import br.com.caelum.livraria.entities.Livro;
 import br.com.caelum.livraria.entities.Venda;
 
 @Named
@@ -23,21 +20,12 @@ public class VendasBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private LivroDAO livroDAO;
+	EntityManager manager;
 
-	public List<Venda> getVendas(long seed) {
+	public List<Venda> getVendas() {
 
-		List<Livro> livros = livroDAO.listaTodos();
-		List<Venda> vendas = new ArrayList<>();
+		return manager.createQuery("select v from Venda v", Venda.class).getResultList();
 
-		Random random = new Random(seed);
-
-		for (Livro livro : livros) {
-			Integer quantidade = random.nextInt(500);
-			vendas.add(new Venda(livro, quantidade));
-		}
-
-		return vendas;
 
 	}
 
@@ -49,20 +37,11 @@ public class VendasBean implements Serializable {
 		ChartSeries vendaSerie = new ChartSeries();
 		vendaSerie.setLabel("Vendas 2016");
 
-		for (Venda venda : getVendas(1234)) {
+		for (Venda venda : getVendas()) {
 			vendaSerie.set(venda.getLivro().getTitulo(), venda.getQuantidade());
 		}
 
 		model.addSeries(vendaSerie);
-
-		ChartSeries vendaSerie2015 = new ChartSeries();
-		vendaSerie2015.setLabel("Vendas 2015");
-
-		for (Venda venda : getVendas(4321)) {
-			vendaSerie2015.set(venda.getLivro().getTitulo(), venda.getQuantidade());
-		}
-
-		model.addSeries(vendaSerie2015);
 
 		return model;
 

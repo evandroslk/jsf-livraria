@@ -43,7 +43,6 @@ public class LivroDAO implements Serializable {
 		this.dao.remove(livro);
 	}
 
-
 	public List<Livro> listaTodos() {
 		return this.dao.listaTodos();
 	}
