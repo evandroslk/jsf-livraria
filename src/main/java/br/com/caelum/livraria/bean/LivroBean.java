@@ -97,7 +97,7 @@ public class LivroBean implements Serializable {
 	public void comecaComDigitoUm(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
 		String valor = value.toString();
 		if (!valor.startsWith("1")) {
-			throw new ValidatorException(new FacesMessage("ISBN deveria começar com 1"));
+			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "ISBN deveria começar com 1", null));
 		}
 	}
 

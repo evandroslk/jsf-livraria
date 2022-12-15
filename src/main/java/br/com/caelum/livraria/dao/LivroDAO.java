@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import org.primefaces.model.SortOrder;
 
 import br.com.caelum.livraria.entities.Livro;
+import br.com.caelum.livraria.log.Log;
 
 public class LivroDAO implements Serializable {
 
@@ -42,6 +43,7 @@ public class LivroDAO implements Serializable {
 		this.dao.remove(livro);
 	}
 
+
 	public List<Livro> listaTodos() {
 		return this.dao.listaTodos();
 	}
@@ -50,6 +52,7 @@ public class LivroDAO implements Serializable {
 		return this.dao.quantidadeDeElementosFiltrados(filtros);
 	}
 
+	@Log
 	public List<Livro> listaTodosPaginada(int inicio, int quantidade, Map<String, Object> filtros, String campoOrdenacao, SortOrder sentidoOrdenacao) {
 		return this.dao.listaTodosPaginada(inicio, quantidade, filtros, campoOrdenacao, sentidoOrdenacao);
 	}
