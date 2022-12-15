@@ -73,9 +73,8 @@ public class DAO<T> implements Serializable {
 			query.orderBy(sentidoOrdenacao == SortOrder.ASCENDING ? cb.asc(root.get(campoOrdenacao)) : cb.desc(root.get(campoOrdenacao)));
 		}
 
-		List<T> lista = em.createQuery(query).setFirstResult(firstResult)
+		return em.createQuery(query).setFirstResult(firstResult)
 				.setMaxResults(maxResults).getResultList();
-		return lista;
 	}
 
 	public int quantidadeDeElementos() {

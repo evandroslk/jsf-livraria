@@ -125,10 +125,7 @@
 				</p:column>
 
 				<p:column headerText="Alterar">
-					<h:commandLink value="Alterar">
-						<f:setPropertyActionListener value="#{livro}"
-							target="#{livroBean.livro}" />
-					</h:commandLink>
+					<h:commandLink value="Alterar" action="#{livroBean.carregar(livro)}"/>
 				</p:column>
 
 			</p:dataTable>
